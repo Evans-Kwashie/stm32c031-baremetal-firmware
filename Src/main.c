@@ -16,10 +16,14 @@
  ******************************************************************************
  */
 
+#include "led.h"
 #include <stdint.h>
 
 int main(void)
 {
-    /* Loop forever */
-	for(;;);
+    led_init();
+	for(;;)
+    {
+        led_toggle();
+    };
 }
