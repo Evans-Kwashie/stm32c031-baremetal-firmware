@@ -17,13 +17,18 @@
  */
 
 #include "led.h"
-#include <stdint.h>
+#include "timer.h"
 
 int main(void)
 {
     led_init();
-	for(;;)
+    timer_init();
+
+	while(1)
     {
-        led_toggle();
-    };
+        if (timer_event_get()) 
+        {
+            led_toggle();
+        }
+    }
 }
