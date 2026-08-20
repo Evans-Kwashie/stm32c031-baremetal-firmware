@@ -25,7 +25,9 @@ add_executable(${PROJECT_NAME}
   Src/main.c
   Src/led.c
   Src/timer.c
-  Inc/timer.h)
+  Inc/timer.h
+  Inc/uart.h
+  Src/uart.c)
 
 # Include additional CMake files for flags, components, and files
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/flags.cmake)

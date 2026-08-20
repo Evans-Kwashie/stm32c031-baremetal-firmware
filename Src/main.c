@@ -18,17 +18,24 @@
 
 #include "led.h"
 #include "timer.h"
+#include "uart.h"
 
 int main(void)
 {
     led_init();
+    uart_init();
     timer_init();
-
+    
 	while(1)
     {
         if (timer_event_get()) 
         {
             led_toggle();
+        }
+
+        if (one_second_event_get())
+        {
+            uart_write_string("1 second elapsed\r\n");
         }
     }
 }
