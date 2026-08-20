@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "author": "Evans",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-st-nucleo-c031c6",
+      "id": "nucleo",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": 100,
+      "left": 100,
+      "attrs": {
+        "color": "red"
+      }
+    }
+  ],
+  "connections": [
+    [ "nucleo:PA5", "led1:A", "green", [] ],
+    [ "nucleo:GND.1", "led1:C", "black", [] ]
+  ]
+}

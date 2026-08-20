@@ -7,7 +7,7 @@ void timer_init(void)
 {
     RCC->APBENR1 |= RCC_APBENR1_TIM3EN;
 
-    TIM3->PSC = 47999;
+    TIM3->PSC = 4799;
     TIM3->ARR = 999;
 
     TIM3->SR &= ~TIM_SR_UIF;
