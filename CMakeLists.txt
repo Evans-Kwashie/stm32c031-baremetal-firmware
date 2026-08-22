@@ -24,6 +24,7 @@ set(PROJECT_NAME stm32c031-baremetal-firmware)
 add_executable(${PROJECT_NAME}
   Src/main.c
   Src/led.c
+  Inc/led.h
   Src/timer.c
   Inc/timer.h
   Inc/uart.h

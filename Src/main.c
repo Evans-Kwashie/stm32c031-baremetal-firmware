@@ -19,12 +19,16 @@
 #include "led.h"
 #include "timer.h"
 #include "uart.h"
+#include <stdint.h>
+#include "stm32c031xx.h"
 
 int main(void)
 {
     led_init();
     uart_init();
     timer_init();
+
+    //static uint32_t count = 0;
     
 	while(1)
     {
@@ -35,7 +39,15 @@ int main(void)
 
         if (one_second_event_get())
         {
-            uart_write_string("1 second elapsed\r\n");
+            //uart_write_string("1 second elapsed\r\n");
+           /* count++;
+            uart_write_string("Count: ");
+            uart_write_uint(count);
+            uart_write_string("\r\n");*/
+            uart_write_hex(timer_status_before_get());
+            uart_write_string("\r\n");
+            uart_write_hex(timer_status_after_get());
+            uart_write_string("\r\n");
         }
     }
 }

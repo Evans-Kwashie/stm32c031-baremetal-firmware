@@ -7,6 +7,10 @@ static volatile uint8_t one_second_event = 0;
 
 static uint8_t timer_count = 0;
 
+static volatile uint32_t timer_status_before = 0;
+static volatile uint32_t timer_status_after = 0;
+
+
 void timer_init(void)
 {
     RCC->APBENR1 |= RCC_APBENR1_TIM3EN;
@@ -29,7 +33,12 @@ void TIM3_IRQHandler(void)
 
     if (TIM3->SR & TIM_SR_UIF)
     {
+        
+        timer_status_before = TIM3->SR;
+
         TIM3->SR &= ~TIM_SR_UIF;
+
+        timer_status_after = TIM3->SR;
 
         timer_event = 1;
         timer_count++;
@@ -62,4 +71,14 @@ uint8_t one_second_event_get(void)
         return 1;
     }
     return 0;
+}
+
+uint32_t timer_status_before_get(void)
+{
+    return timer_status_before;
+}
+
+uint32_t timer_status_after_get(void)
+{
+    return timer_status_after;
 }

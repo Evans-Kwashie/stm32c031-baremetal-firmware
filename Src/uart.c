@@ -1,5 +1,6 @@
 #include "uart.h"
 #include "stm32c031xx.h"
+#include <stdint.h>
 
 void uart_init()
 {
@@ -32,4 +33,58 @@ void uart_write_string(const char *str)
         uart_write_char(*str);
         str++;
     }
+}
+
+void uart_write_uint(uint32_t number)
+{
+    char digits[10];
+    uint8_t i = 0;
+
+    if (number == 0)
+    {
+        uart_write_char('0');
+        return;
+    }
+
+    while (number != 0)
+    {
+        digits[i] = number % 10;
+        i++;
+        number /= 10;    
+    }
+    
+    while (i != 0)
+    {
+        i--;
+        uart_write_char('0' + digits[i]);
+    }
+}
+
+void uart_write_hex(uint32_t number)
+{
+    const char hex[] = "0123456789ABCDEF";
+    uint8_t digits[8];
+    uint8_t i = 0;
+
+    uart_write_char('0');
+    uart_write_char('x');
+
+    if (number == 0)
+    {
+        uart_write_char('0');
+    }
+
+    while (number != 0)
+    {
+        digits[i] = number % 16;
+        i++;
+        number /= 16;
+    }
+
+    while (i != 0)
+    {
+        i--;
+        uart_write_char(hex[digits[i]]);
+    }
+    
 }
