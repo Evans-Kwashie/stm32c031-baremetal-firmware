@@ -13,9 +13,15 @@ void uart_init()
     GPIOA->AFR[1] &= ~(0xFU << ((9 - 8) * 4));
     GPIOA->AFR[1] |= (0x1U << ((9 - 8) * 4));
 
+    GPIOA->MODER &= ~(3U << (10 * 2));
+    GPIOA->MODER |=  (2U << (10 * 2));
+
+    GPIOA->AFR[1] &= ~(0xFU << ((10 - 8) * 4));
+    GPIOA->AFR[1] |=  (0x1U << ((10 - 8) * 4));
+
     USART1->BRR = 5000;
 
-    USART1->CR1 |= USART_CR1_TE | USART_CR1_UE;
+    USART1->CR1 |= USART_CR1_TE | USART_CR1_RE | USART_CR1_UE;
 }
 
 void uart_write_char(char c)
@@ -87,4 +93,13 @@ void uart_write_hex(uint32_t number)
         uart_write_char(hex[digits[i]]);
     }
     
+}
+
+char uart_read_char(void)
+{
+    while (!(USART1->ISR & USART_ISR_RXNE_RXFNE))
+    {
+    }
+
+    return USART1->RDR;
 }

@@ -8,5 +8,6 @@ void uart_write_char(char c);
 void uart_write_string(const char *str);
 void uart_write_uint(uint32_t number);
 void uart_write_hex(uint32_t number);
+char uart_read_char(void);
 
 #endif

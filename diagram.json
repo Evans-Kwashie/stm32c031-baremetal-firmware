@@ -21,12 +21,13 @@
     }
   ],
   "connections": [
+    [ "$serialMonitor:RX", "nucleo:PA9", "", [] ],
+    [ "$serialMonitor:TX", "nucleo:PA10", "", [] ],
     [ "nucleo:PA5", "led1:A", "green", [] ],
-    [ "nucleo:GND.1", "led1:C", "black", [] ],
-    [ "nucleo:PA9", "$serialMonitor:RX", "", [] ]
+    [ "nucleo:GND.1", "led1:C", "black", [] ]
   ],
-"serialMonitor": {
-    "display": "always",
-    "newline": "lf"
-  }
+  "serialMonitor": {
+      "display": "always",
+      "newline": "lf"
+    }
 }
