@@ -103,3 +103,13 @@ char uart_read_char(void)
 
     return USART1->RDR;
 }
+
+uint8_t uart_char_available(void)
+{
+    if (USART1->ISR & USART_ISR_RXNE_RXFNE)
+    {
+        return 1;
+    }
+    
+    return 0;
+}

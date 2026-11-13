@@ -20,23 +20,59 @@
 #include "timer.h"
 #include "uart.h"
 #include <stdint.h>
-#include "stm32c031xx.h"
-
-#include "uart.h"
+#include <string.h>
 #include "stm32c031xx.h"
 
 int main(void)
 {
     uart_init();
+    timer_init();
+    led_init();
 
-    uart_write_string("UART ready\r\n");
+    char c [10];
+    char *ptr = c;
+
+    char a;
+
+    uart_write_string("UART ready");
+    uart_write_string("\r\n");
+
 
     while (1)
     {
-        if (USART1->ISR & USART_ISR_RXNE_RXFNE)
-        {
-            uart_write_string("RX FLAG SET\r\n");
-            uart_write_char(USART1->RDR);
-        }
+       if (uart_char_available())
+       {
+            a = uart_read_char();
+
+            if (a == '\r' || a == '\n')
+            {
+                *ptr = '\0';
+                uart_write_string(c);
+                uart_write_string("\r\n");
+                ptr = c;
+            }
+
+            if (ptr < (c + 9))
+            {
+                *ptr = a;
+                ptr++;
+            }
+
+            if (strcmp(c, "led on"))
+            {
+                led_toggle();
+            }
+
+            else if (strcmp(c, "led off"))
+            {
+                led_toggle();
+            }
+            
+            else if (strcmp(c, "status"))
+            {
+                uart_write_string("Timer: running");
+                uart_write_uint(TIM3->SR);
+            }
+       }
     }
 }
