@@ -1,4 +1,4 @@
 [wokwi]
 version = 1
-firmware = "build/Debug/stm32c031-baremetal-firmware.elf"
-elf = "build/Debug/stm32c031-baremetal-firmware.elf"
+firmware = "build-wsl/stm32c031-baremetal-firmware.elf"
+elf = "build-wsl/stm32c031-baremetal-firmware.elf"

@@ -31,8 +31,10 @@ int main(void)
 
     char c [10];
     char *ptr = c;
-
     char a;
+
+    uint8_t last_was_cr = 0;
+    uint8_t command_overflow = 0;
 
     uart_write_string("UART ready");
     uart_write_string("\r\n");
@@ -43,35 +45,67 @@ int main(void)
        if (uart_char_available())
        {
             a = uart_read_char();
+            if (last_was_cr && a == '\n')
+            {
+                last_was_cr = 0;
+                continue;
+            }
+
+            last_was_cr = 0;
 
             if (a == '\r' || a == '\n')
             {
+                last_was_cr = (a == '\r');
                 *ptr = '\0';
-                uart_write_string(c);
-                uart_write_string("\r\n");
+
+                if (command_overflow == 1)
+                {
+                    uart_write_string("Error: command too long\r\n");
+                }
+
+                else
+                {
+                    uart_write_string(c);
+                    uart_write_string("\r\n");
+
+                    if (strcmp(c, "led on") == 0)
+                    {
+                        led_on();
+                    }
+
+                    else if (strcmp(c, "led off") == 0)
+                    {
+                        led_off();
+                    }
+
+                    else if (strcmp(c, "status") == 0)
+                    {
+                        if (TIM3->CR1 & (1U << 0))
+                        {
+                            uart_write_string("Timer: running\r\n");
+                        }
+                        else
+                        {
+                            uart_write_string("Timer: stopped\r\n");
+                        }
+                    }
+                }
+
                 ptr = c;
+                command_overflow = 0;
             }
 
-            if (ptr < (c + 9))
+            else
             {
-                *ptr = a;
-                ptr++;
-            }
-
-            if (strcmp(c, "led on"))
-            {
-                led_toggle();
-            }
-
-            else if (strcmp(c, "led off"))
-            {
-                led_toggle();
-            }
-            
-            else if (strcmp(c, "status"))
-            {
-                uart_write_string("Timer: running");
-                uart_write_uint(TIM3->SR);
+                if (ptr < (c + 9))
+                {
+                    *ptr = a;
+                    ptr++;
+                }
+                else
+                {
+                    command_overflow = 1;
+                }
             }
        }
     }

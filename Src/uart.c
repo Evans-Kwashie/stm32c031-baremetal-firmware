@@ -56,9 +56,9 @@ void uart_write_uint(uint32_t number)
     {
         digits[i] = number % 10;
         i++;
-        number /= 10;    
+        number /= 10;
     }
-    
+
     while (i != 0)
     {
         i--;
@@ -92,7 +92,7 @@ void uart_write_hex(uint32_t number)
         i--;
         uart_write_char(hex[digits[i]]);
     }
-    
+
 }
 
 char uart_read_char(void)
@@ -110,6 +110,6 @@ uint8_t uart_char_available(void)
     {
         return 1;
     }
-    
+
     return 0;
 }

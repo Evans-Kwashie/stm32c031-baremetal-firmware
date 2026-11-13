@@ -29,11 +29,11 @@ void timer_init(void)
 
 void TIM3_IRQHandler(void)
 {
-    
+
 
     if (TIM3->SR & TIM_SR_UIF)
     {
-        
+
         timer_status_before = TIM3->SR;
 
         TIM3->SR &= ~TIM_SR_UIF;
@@ -66,7 +66,7 @@ uint8_t timer_event_get(void)
 uint8_t one_second_event_get(void)
 {
     if (one_second_event)
-    {   
+    {
         one_second_event = 0;
         return 1;
     }
